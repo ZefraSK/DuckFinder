@@ -1,5 +1,14 @@
 import pyautogui
 import time
+from playsound import playsound
+import threading
+
+def playAudio(audioFile):
+    try:
+        playsound(audioFile)
+        print('Shots Fired!!!')
+    except Exception as e:
+        print(f'Failed to play audio... I mean gun malfunctioned\nError:{e}')
 
 duckCollection=0
 
@@ -14,8 +23,7 @@ def find_and_click_png_in_region(image_path, region):
             # Save old Mouse Position
             prev_mouseLocation = pyautogui.position()
             
-            
-            # PNG image found, click on it
+                        # PNG image found, click on it
             x, y = pyautogui.center(position)
             pyautogui.click(x, y)
             #myTime = time.localtime()
@@ -23,6 +31,10 @@ def find_and_click_png_in_region(image_path, region):
             duckCollection+=1
             print(f'Current # of Ducks added to my collection {duckCollection}')
             
+            # Fire the Gun
+            t1 = threading.Thread(target=playAudio, args=('awp_val.mp3',))
+            t1.start()
+                
             # Lets return mouse back to prev_location
             pyautogui.moveTo(prev_mouseLocation)
             
